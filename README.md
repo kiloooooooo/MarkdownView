@@ -1,4 +1,5 @@
 # MarkdownView
+[![](https://jitpack.io/v/KosukeTakahashi/markdownview.svg)](https://jitpack.io/#KosukeTakahashi/markdownview)
 
 This is MarkdownView for Android.
 
@@ -23,7 +24,7 @@ allprojects {
 ```groovy
 ...
 dependencies {
-  implementation 'com.github.KosukeTakahashi:markdownview:v1.0.0'
+  implementation 'com.github.KosukeTakahashi:markdownview:v1.1.0'
 }
 ...
 ```
