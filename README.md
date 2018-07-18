@@ -64,3 +64,4 @@ See [LICENSE.md](LICENSE.md)
 Using following libraries:
 - [marked.js](https://github.com/markedjs/marked)
 - [highlight.js](https://github.com/isagalaev/highlight.js)
+- [MathJax](https://github.com/mathjax/MathJax)
