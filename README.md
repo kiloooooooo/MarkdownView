@@ -50,6 +50,20 @@ override fun onCreate(savedInstanceState: Bundle?) {
       **Baz**
       ...
   """.trimIndent()
+  val listener = object: RendererListener {
+    override fun onRenderStarted() {
+      Toast.makeText(this@MainActivity, "Started rendering", Toast.LENGTH_SHORT).show()
+    }
+	    
+    override fun onRenderFinished() {
+      Toast.makeText(this@MainActivity, "Finished rendering", Toast.LENGTH_SHORT).show()
+    }
+	    
+    override fun onError(error: WebResourceError) {
+      Toast.makeText(this@MainActivity, "Error occurred! =>\n$error", Toast.LENGTH_LONG).show()
+    }
+  }
+  markdown.rendererListener = listener
   markdown.render(md)
 }
 ```
