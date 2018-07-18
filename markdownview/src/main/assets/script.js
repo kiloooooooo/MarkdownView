@@ -3,6 +3,7 @@ function loadMarkdown(content) {
 
     let callback = (err, out) => {
         progressBar.hide()
+        rendererCallback.onRenderFinished()
 
         if (err)
             return err

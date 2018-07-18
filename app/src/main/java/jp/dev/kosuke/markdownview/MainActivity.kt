@@ -2,6 +2,8 @@ package jp.dev.kosuke.markdownview
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.webkit.WebResourceError
+import android.widget.Toast
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -66,6 +68,21 @@ class MainActivity : AppCompatActivity() {
             ![img](https://upload.wikimedia.org/wikipedia/commons/b/b5/Kotlin-logo.png)
         """.trimIndent()
 
+        val listener = object: RendererListener {
+            override fun onRenderStarted() {
+                Toast.makeText(this@MainActivity, "Started rendering", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onRenderFinished() {
+                Toast.makeText(this@MainActivity, "Finished rendering", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onError(error: WebResourceError) {
+                Toast.makeText(this@MainActivity, "Error occurred! =>\n$error", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        markdown_test.rendererListener = listener
         markdown_test.render(markdown)
 
         fab.setOnClickListener { _ ->

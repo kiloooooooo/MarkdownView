@@ -1,7 +1,6 @@
 package jp.dev.kosuke.markdownview
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.os.Build
 import android.os.Handler
 import android.util.AttributeSet
@@ -12,12 +11,7 @@ import android.widget.ProgressBar
 import android.widget.RelativeLayout
 
 class MarkdownView: RelativeLayout {
-
-    interface MarkdownRendererListener {
-        fun onRenderStart()
-        fun onRenderFinish()
-        fun onError(error: WebResourceError)
-    }
+    var rendererListener: RendererListener? = null
 
     private lateinit var webView: WebView
     private lateinit var progressBar: ProgressBar
@@ -49,21 +43,22 @@ class MarkdownView: RelativeLayout {
                 addView(webView, webViewParams)
                 addView(progressBar, progressParams)
 
-                val listener = object: MarkdownRendererListener {
-
-                    override fun onRenderStart() {
+                val clientListener = object: WebViewClientListener {
+                    override fun onPageStarted() {
                         progressBar.visibility = View.VISIBLE
+                        rendererListener?.onRenderStarted()
                     }
 
-                    override fun onRenderFinish() {
+                    override fun onPageFinished() {
                         isReady = true
                         render(content)
                     }
 
-                    override fun onError(error: WebResourceError) {
+                    override fun onReceivedError(error: WebResourceError) {
                         progressBar.visibility = View.GONE
                         isReady = true
                         render("# FAILED!!\n$error")
+                        rendererListener?.onError(error)
                     }
                 }
 
@@ -91,6 +86,12 @@ class MarkdownView: RelativeLayout {
                     }
                 }
 
+                val rendererCallback = object {
+                    @JavascriptInterface
+                    fun onRenderFinished() {
+                        rendererListener?.onRenderFinished()
+                    }
+                }
 
                 if (Build.VERSION_CODES.LOLLIPOP <= Build.VERSION.SDK_INT)
                     WebView.enableSlowWholeDocumentDraw()
@@ -98,17 +99,18 @@ class MarkdownView: RelativeLayout {
                 webView.settings.javaScriptEnabled = true
                 webView.isVerticalScrollBarEnabled = true
                 webView.isHorizontalFadingEdgeEnabled = false
-                webView.webViewClient = MdWebViewClient(listener)
+                webView.webViewClient = MdWebViewClient(clientListener)
                 webView.addJavascriptInterface(progressBarController, "progressBar")
                 webView.addJavascriptInterface(logger, "nativeLogger")
+                webView.addJavascriptInterface(rendererCallback, "rendererCallback")
                 webView.loadUrl("file:///android_asset/template.html")
             }
 
     fun render(markdown: String) {
         if (isReady) {
             val replacedMd = markdown.replace("\n", "  \\n")
-                    .replace("\'", "\\\\\'")
-                    .replace("\"", "\\\\\"")
+                                     .replace("\'", "\\\\\'")
+                                     .replace("\"", "\\\\\"")
 
             content = replacedMd
             val url = "javascript:loadMarkdown('$content')"
@@ -117,27 +119,6 @@ class MarkdownView: RelativeLayout {
         }
         else {
             content = markdown
-        }
-    }
-
-    inner class MdWebViewClient(private val listener: MarkdownRendererListener): WebViewClient() {
-        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-            super.onPageStarted(view, url, favicon)
-            listener.onRenderStart()
-        }
-
-        override fun onPageFinished(view: WebView?, url: String?) {
-            super.onPageFinished(view, url)
-            listener.onRenderFinish()
-        }
-
-        override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
-            super.onReceivedError(view, request, error)
-            listener.onError(error!!)
-        }
-
-        override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-            return true
         }
     }
 }
