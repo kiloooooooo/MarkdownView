@@ -24,7 +24,7 @@ allprojects {
 ```groovy
 ...
 dependencies {
-  implementation 'com.github.KosukeTakahashi:markdownview:v1.1.1'
+  implementation 'com.github.KosukeTakahashi:markdownview:v1.2.0'
 }
 ...
 ```
@@ -64,13 +64,20 @@ override fun onCreate(savedInstanceState: Bundle?) {
       Toast.makeText(this@MainActivity, "Error occurred! =>\n$error", Toast.LENGTH_LONG).show()
     }
   }
+  val css = """
+      h1 {
+        color: blue;
+      }
+  """.trimIndent()
+  
   markdown.rendererListener = listener
   markdown.render(md)
+  markdown.loadCss(css)
 }
 ```
 
 # TODO
-- [ ] Custom CSS
+- [x] ~~Custom CSS~~ **Done!**
 
 # License
 See [LICENSE.md](LICENSE.md)
