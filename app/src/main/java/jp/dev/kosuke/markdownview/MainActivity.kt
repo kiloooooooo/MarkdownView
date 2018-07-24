@@ -15,6 +15,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        val colors = arrayOf("red", "green", "blue", "gray", "black")
+        var currentIdx = 0
+
         val markdown = """
             # Header 1
             ## Header 2
@@ -86,7 +89,8 @@ class MainActivity : AppCompatActivity() {
         markdown_test.render(markdown)
 
         fab.setOnClickListener { _ ->
-            markdown_test.render(markdown)
+            markdown_test.loadCss("body { color: ${colors[currentIdx++]}; }")
+            currentIdx = ++currentIdx % colors.size
         }
     }
 }

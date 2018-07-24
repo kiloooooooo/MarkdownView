@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Build
 import android.os.Handler
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.webkit.*
 import android.widget.ProgressBar
@@ -79,13 +78,6 @@ class MarkdownView: RelativeLayout {
                     }
                 }
 
-                val logger = object {
-                    @JavascriptInterface
-                    fun log(msg: String) {
-                        Log.d("MarkdownView Log", msg)
-                    }
-                }
-
                 val rendererCallback = object {
                     @JavascriptInterface
                     fun onRenderFinished() {
@@ -101,7 +93,6 @@ class MarkdownView: RelativeLayout {
                 webView.isHorizontalFadingEdgeEnabled = false
                 webView.webViewClient = MdWebViewClient(clientListener)
                 webView.addJavascriptInterface(progressBarController, "progressBar")
-                webView.addJavascriptInterface(logger, "nativeLogger")
                 webView.addJavascriptInterface(rendererCallback, "rendererCallback")
                 webView.loadUrl("file:///android_asset/template.html")
             }
@@ -110,15 +101,18 @@ class MarkdownView: RelativeLayout {
         if (isReady) {
             val replacedMd = markdown.replace("\n", "  \\n")
                                      .replace("\'", "\\\\\'")
-                                     .replace("\"", "\\\\\"")
 
             content = replacedMd
             val url = "javascript:loadMarkdown('$content')"
-            Log.d("markdownView", "url => $url")
             webView.loadUrl(url)
         }
         else {
             content = markdown
         }
+    }
+
+    fun loadCss(css: String) {
+        val url = "javascript:loadCss('$css')"
+        webView.loadUrl(url)
     }
 }

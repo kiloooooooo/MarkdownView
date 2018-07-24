@@ -27,11 +27,18 @@ function loadMarkdown(content) {
 
     markdownContent.innerHTML = parsedHtml
 
-    nativeLogger.log("markdown parsed =>\n" + parsedHtml)
+    console.log("markdown parsed =>\n" + parsedHtml)
 
     MathJax.Hub.Typeset(markdownContent, () => {})
     let elems = document.querySelectorAll('code')
     for (elem of elems) {
         hljs.highlightBlock(elem)
     }
+}
+
+function loadCss(css) {
+    let cssElem = document.createElement('style')
+    cssElem.type = 'text/css'
+    cssElem.innerHTML = css
+    document.head.appendChild(cssElem)
 }
