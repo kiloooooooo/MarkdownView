@@ -1,9 +1,19 @@
-function loadMarkdown(content) {
+var style = null
+
+function renderMarkdown(content) {
     progressBar.show()
 
     let callback = (err, out) => {
         progressBar.hide()
         rendererCallback.onRenderFinished()
+
+        console.log('Loading CSS... :: ' + style)
+        if (style) {
+            let cssElem = document.createElement('style')
+            cssElem.type = 'text/css'
+            cssElem.innerHTML = style
+            document.head.appendChild(cssElem)
+        }
 
         if (err)
             return err
@@ -37,6 +47,10 @@ function loadMarkdown(content) {
 }
 
 function loadCss(css) {
+    console.log('====loadCss called====')
+
+    style = css
+
     let cssElem = document.createElement('style')
     cssElem.type = 'text/css'
     cssElem.innerHTML = css

@@ -86,10 +86,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         markdown_test.rendererListener = listener
+        markdown_test.loadCss("h1 { color: blue; }")
         markdown_test.render(markdown)
 
         fab.setOnClickListener { _ ->
-            markdown_test.loadCss("body { color: ${colors[currentIdx++]}; }")
+            markdown_test.loadCss("body, h1 { color: ${colors[currentIdx++]}; }")
             currentIdx = ++currentIdx % colors.size
         }
     }

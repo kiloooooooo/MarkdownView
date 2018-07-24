@@ -18,15 +18,15 @@ class MarkdownView: RelativeLayout {
 
     private var isReady = false
     private var content = ""
-    private var css = ""
+    private var style = ""
 
-    private var showProgressBar = false
+    private var showProgressBar = true
 
-    constructor(context: Context) : super(context) {
+    constructor(context: Context): super(context) {
         init(context)
     }
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+    constructor(context: Context, attrs: AttributeSet): super(context, attrs) {
         val arr = context.obtainStyledAttributes(attrs, R.styleable.MarkdownView)
         showProgressBar = arr.getBoolean(0, true)
         arr.recycle()
@@ -62,6 +62,7 @@ class MarkdownView: RelativeLayout {
 
                     override fun onPageFinished() {
                         isReady = true
+                        loadCss(style)
                         render(content)
                     }
 
@@ -113,9 +114,8 @@ class MarkdownView: RelativeLayout {
         if (isReady) {
             val replacedMd = markdown.replace("\n", "  \\n")
                                      .replace("\'", "\\\\\'")
-            val url = "javascript:loadMarkdown('$content')"
 
-            content = replacedMd
+            val url = "javascript:renderMarkdown('$replacedMd')"
             webView.loadUrl(url)
         }
         else {
@@ -125,16 +125,12 @@ class MarkdownView: RelativeLayout {
 
     fun loadCss(css: String) {
         if (isReady) {
-            val replacedCss = css.replace("'", "\\'")
-            val url = "javascript:loadCss('$replacedCss')"
-
-            this.css = replacedCss
+            val replacedCss = css.replace("\'", "\\\'")
+            val url = "javascript:loadCss(\'$replacedCss\')"
             webView.loadUrl(url)
         }
         else {
-            this.css = css
+            style = css
         }
-//        val url = "javascript:loadCss('$css')"
-//        webView.loadUrl(url)
     }
 }
