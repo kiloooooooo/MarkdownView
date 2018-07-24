@@ -24,7 +24,7 @@ allprojects {
 ```groovy
 ...
 dependencies {
-  implementation 'com.github.KosukeTakahashi:markdownview:v1.2.0'
+  implementation 'com.github.KosukeTakahashi:markdownview:v1.3.0'
 }
 ...
 ```
@@ -33,10 +33,12 @@ dependencies {
 ```xml
 ...
 <jp.dev.kosuke.markdownview.MarkdownView
+	xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/markdown"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"/>
+        android:padding="16dp"
+	app:showProgressBar="true"/> <!-- if "false", top ProgressBar will not be shown. -->
 ...
 ```
 
