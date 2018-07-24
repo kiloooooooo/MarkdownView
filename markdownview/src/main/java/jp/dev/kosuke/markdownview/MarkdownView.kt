@@ -8,6 +8,7 @@ import android.view.View
 import android.webkit.*
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
+import android.widget.TextView
 
 class MarkdownView: RelativeLayout {
     var rendererListener: RendererListener? = null
@@ -18,17 +19,25 @@ class MarkdownView: RelativeLayout {
     private var isReady = false
     private var content = ""
 
+    private var showProgressBar = false
+
     constructor(context: Context) : super(context) {
         init(context)
     }
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+        val arr = context.obtainStyledAttributes(attrs, R.styleable.MarkdownView)
+        showProgressBar = arr.getBoolean(0, true)
+        arr.recycle()
         init(context)
     }
 
     private fun init(context: Context) =
             if (isInEditMode) {
-
+                val text = TextView(context)
+                val params = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+                params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE)
+                addView(text, params)
             }
             else {
                 webView = WebView(context)
@@ -40,7 +49,9 @@ class MarkdownView: RelativeLayout {
                 val progressParams = RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
 
                 addView(webView, webViewParams)
-                addView(progressBar, progressParams)
+
+                if (showProgressBar)
+                    addView(progressBar, progressParams)
 
                 val clientListener = object: WebViewClientListener {
                     override fun onPageStarted() {
