@@ -18,6 +18,7 @@ class MarkdownView: RelativeLayout {
 
     private var isReady = false
     private var content = ""
+    private var css = ""
 
     private var showProgressBar = false
 
@@ -112,9 +113,9 @@ class MarkdownView: RelativeLayout {
         if (isReady) {
             val replacedMd = markdown.replace("\n", "  \\n")
                                      .replace("\'", "\\\\\'")
+            val url = "javascript:loadMarkdown('$content')"
 
             content = replacedMd
-            val url = "javascript:loadMarkdown('$content')"
             webView.loadUrl(url)
         }
         else {
@@ -123,7 +124,17 @@ class MarkdownView: RelativeLayout {
     }
 
     fun loadCss(css: String) {
-        val url = "javascript:loadCss('$css')"
-        webView.loadUrl(url)
+        if (isReady) {
+            val replacedCss = css.replace("'", "\\'")
+            val url = "javascript:loadCss('$replacedCss')"
+
+            this.css = replacedCss
+            webView.loadUrl(url)
+        }
+        else {
+            this.css = css
+        }
+//        val url = "javascript:loadCss('$css')"
+//        webView.loadUrl(url)
     }
 }
