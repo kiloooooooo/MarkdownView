@@ -24,7 +24,7 @@ allprojects {
 ```groovy
 ...
 dependencies {
-  implementation 'com.github.KosukeTakahashi:markdownview:v1.1.0'
+  implementation 'com.github.KosukeTakahashi:markdownview:v1.1.1'
 }
 ...
 ```
