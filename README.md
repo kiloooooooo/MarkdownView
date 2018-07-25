@@ -24,7 +24,7 @@ allprojects {
 ```groovy
 ...
 dependencies {
-  implementation 'com.github.KosukeTakahashi:markdownview:v1.3.0'
+  implementation 'com.github.KosukeTakahashi:markdownview:v1.3.1'
 }
 ...
 ```
@@ -73,8 +73,8 @@ override fun onCreate(savedInstanceState: Bundle?) {
   """.trimIndent()
   
   markdown.rendererListener = listener
-  markdown.render(md)
   markdown.loadCss(css)
+  markdown.render(md)
 }
 ```
 
