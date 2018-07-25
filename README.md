@@ -4,10 +4,10 @@
 This is MarkdownView for Android.
 
 # Screenshots
-![img](images/1.png)
-![img](images/2.png)
-![img](images/3.png)
-![img](images/4.png)
+<img src="images/1.png" width="200px"></img>
+<img src="images/2.png" width="200px"></img>
+<img src="images/3.png" width="200px"></img>
+<img src="images/4.png" width="200px"></img>
 
 # Usage
 1. Add following to root `build.gradle`
@@ -24,7 +24,7 @@ allprojects {
 ```groovy
 ...
 dependencies {
-  implementation 'com.github.KosukeTakahashi:markdownview:v1.3.2'
+  implementation 'com.github.KosukeTakahashi:markdownview:v1.3.3'
 }
 ...
 ```
