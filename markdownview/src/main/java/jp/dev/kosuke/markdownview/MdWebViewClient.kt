@@ -1,6 +1,10 @@
 package jp.dev.kosuke.markdownview
 
+import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Build
+import android.support.annotation.RequiresApi
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -22,7 +26,30 @@ internal class MdWebViewClient(private val listener: WebViewClientListener): Web
         listener.onReceivedError(error!!)
     }
 
-    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-        return true
-    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean =
+            if (view != null && request != null) {
+                val intent = Intent(Intent.ACTION_VIEW, request.url)
+
+                view.context.startActivity(intent)
+
+                true
+            }
+            else {
+                false
+            }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean =
+            if (view != null && url != null) {
+                val uri = Uri.parse(url)
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+
+                view.context.startActivity(intent)
+
+                true
+            }
+            else {
+                false
+            }
 }

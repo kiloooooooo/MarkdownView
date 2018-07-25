@@ -64,12 +64,15 @@ class MainActivity : AppCompatActivity() {
             \\]
 
             ## Images
+            URL: https://commons.wikimedia.org/wiki/File:A300_Iran_Air_EP-IBT_THR_May_2010.jpg?uselang=ja
             ![img](https://upload.wikimedia.org/wikipedia/commons/9/9a/A300_Iran_Air_EP-IBT_THR_May_2010.jpg)
 
             URL: https://upload.wikimedia.org/wikipedia/commons/b/b5/Kotlin-logo.png
             ![img](https://upload.wikimedia.org/wikipedia/commons/b/b5/Kotlin-logo.png)
+
+            ## Links
+            [Google](https://www.google.co.jp)
         """.trimIndent()
-        // URL: https://commons.wikimedia.org/wiki/File:A300_Iran_Air_EP-IBT_THR_May_2010.jpg?uselang=ja
 
         val listener = object: RendererListener {
             override fun onRenderStarted() {
