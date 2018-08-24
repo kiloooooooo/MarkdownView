@@ -113,9 +113,10 @@ class MarkdownView: RelativeLayout {
     fun render(markdown: String) {
         if (isReady) {
             val replacedMd = markdown.replace("\n", "  \\n")
-                                     .replace("\'", "\\\\\'")
+//                                     .replace("\\", "\\\\")
+//                                     .replace("\'", "\\\'")
 
-            val url = "javascript:renderMarkdown('$replacedMd')"
+            val url = "javascript:renderMarkdown(\"$replacedMd\")"
             webView.loadUrl(url)
         }
         else {

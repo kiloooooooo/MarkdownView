@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
             ## Code
             ```kotlin:kotlin
             fun main(args: Array<String>) {
+                val chr = 'X'
                 println(\"Hello, Kotlin!\")
             }
             ```
@@ -58,6 +59,7 @@ class MainActivity : AppCompatActivity() {
             ## Formula
             ### Inline
             \\( e^{i \\theta} = \\cos \\theta + i \\sin \\theta \\) is known as Euler\'s formula.
+            When \\( x \\le 2 \\), \\( \\sqrt { 2 - x } \\) is a real number.
             ### Displayed
             \\[
                 \\sin (\\alpha + \\beta) = \\sin \\alpha \\cos \\beta + \\cos \\alpha \\sin \\beta

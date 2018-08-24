@@ -23,17 +23,17 @@ function renderMarkdown(content) {
 
     let markdownContent = document.querySelector('#markdown_content')
 
-    let parsed = content.replace("\\(", "<intex>")
-                        .replace("\\)", "</intex>")
-                        .replace("\\[", "<dtex>")
-                        .replace("\\]", "</dtex>")
+    let parsed = content.replace(new RegExp('\\\\\\(', 'g'), "<intex>")
+                        .replace(new RegExp('\\\\\\)', 'g'), "</intex>")
+                        .replace(new RegExp('\\\\\\[', 'g'), "<dtex>")
+                        .replace(new RegExp('\\\\\\]', 'g'), "</dtex>")
 
     let html = marked(parsed, null, callback)
 
-    let parsedHtml = html.replace("<intex>", "\\(")
-                         .replace("</intex>", "\\)")
-                         .replace("<dtex>", "\\[")
-                         .replace("</dtex>", "\\]")
+    let parsedHtml = html.replace(new RegExp('<intex>', 'g'), "\\(")
+                         .replace(new RegExp('</intex>', 'g'), "\\)")
+                         .replace(new RegExp('<dtex>', 'g'), "\\[")
+                         .replace(new RegExp('</dtex>', 'g'), "\\]")
 
     markdownContent.innerHTML = parsedHtml
 
